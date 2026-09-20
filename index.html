@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Doom 2D Forever Model Editor</title>
-    <link rel="stylesheet" href="/src/styles.css" />
+    <link rel="stylesheet" href="./src/styles.css" />
   </head>
   <body>
     <div class="desktop">
@@ -166,6 +166,20 @@
     <input type="file" id="pickFolder" webkitdirectory multiple hidden />
     <input type="file" id="pickWad" accept=".wad,.dfwad,.zip" hidden />
     <input type="file" id="pickFile" hidden />
-    <script type="module" src="/src/main.ts"></script>
+    <script>
+      window.__loadEditor = function () {
+        if (window.__editorLoaded) return;
+        window.__editorLoaded = true;
+        var s = document.createElement("script");
+        s.src = "./bundle.js";
+        document.body.appendChild(s);
+      };
+      if (location.protocol === "file:") window.__loadEditor();
+    </script>
+    <script type="module">
+      if (location.protocol !== "file:") {
+        import("./src/main.ts").catch(function () { window.__loadEditor(); });
+      }
+    </script>
   </body>
 </html>

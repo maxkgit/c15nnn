@@ -455,7 +455,7 @@ export class Editor {
   }
 
   private status(key: Parameters<typeof t>[1] | string): void {
-    const known = key in { ready: 1, loadedFolder: 1, loadedWad: 1, savedTxt: 1, savedWad: 1, newModel: 1, needName: 1, badWad: 1, alignWeapsDone: 1 };
+    const known = key in { ready: 1, loadedFolder: 1, loadedWad: 1, savedTxt: 1, savedWad: 1, newModel: 1, needName: 1, badWad: 1, alignWeapsDone: 1, fileHint: 1 };
     this.$("status").textContent = known ? t(this.lang, key as Parameters<typeof t>[1]) : key;
   }
 
@@ -904,7 +904,7 @@ export class Editor {
 
   async loadOfficial(): Promise<void> {
     try {
-      const txt = await fetch("/doomer/TEXT/MODEL.txt").then((r) => {
+      const txt = await fetchPublic("doomer/TEXT/MODEL.txt").then((r) => {
         if (!r.ok) throw new Error("model");
         return r.text();
       });
@@ -926,10 +926,10 @@ export class Editor {
         "DIE6.wav", "FALL1.wav", "FALL2.wav",
       ];
       await Promise.all([
-        ...textures.map((file) => this.fetchAsset(`/doomer/TEXTURES/${file}`, "image")),
-        ...sounds.map((file) => this.fetchAsset(`/doomer/SOUNDS/${file}`, "sound")),
-        ...weaponSpriteUrls("/weapons").map((url) => this.fetchAsset(url, "image", this.weaponPacks.v2)),
-        ...weaponSpriteUrls("/weapons_old").map((url) => this.fetchAsset(url, "image", this.weaponPacks.v1)),
+        ...textures.map((file) => this.fetchAsset(`doomer/TEXTURES/${file}`, "image")),
+        ...sounds.map((file) => this.fetchAsset(`doomer/SOUNDS/${file}`, "sound")),
+        ...weaponSpriteUrls("weapons").map((url) => this.fetchAsset(url, "image", this.weaponPacks.v2)),
+        ...weaponSpriteUrls("weapons_old").map((url) => this.fetchAsset(url, "image", this.weaponPacks.v1)),
       ]);
       this.folderLabel = "DoomerWAD";
       this.applyWeaponPack();
@@ -938,11 +938,12 @@ export class Editor {
     } catch (err) {
       console.error(err);
       await this.loadDemo();
+      if (typeof location !== "undefined" && location.protocol === "file:") this.status("fileHint");
     }
   }
 
   private async fetchAsset(url: string, kind: Asset["kind"], into = this.assets): Promise<void> {
-    const res = await fetch(url);
+    const res = await fetchPublic(url);
     if (!res.ok) return;
     const bytes = new Uint8Array(await res.arrayBuffer());
     const blob = new Blob([bytes as BlobPart]);
@@ -994,6 +995,23 @@ export class Editor {
       image: await loadImage(blob),
     });
   }
+}
+
+async function fetchPublic(path: string): Promise<Response> {
+  const rel = path.replace(/^\//, "");
+  const urls = [`./${rel}`, `./public/${rel}`];
+  let last: Response | undefined;
+  for (const url of urls) {
+    try {
+      const res = await fetch(url);
+      if (res.ok) return res;
+      last = res;
+    } catch {
+      /* file:// or missing */
+    }
+  }
+  if (last) return last;
+  throw new Error(rel);
 }
 
 function weaponSpriteUrls(dir: string): string[] {

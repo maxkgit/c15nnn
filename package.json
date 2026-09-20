@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
-    "build": "tsc --noEmit && vite build",
+    "bundle": "esbuild src/main.ts --bundle --format=iife --outfile=bundle.js",
+    "build": "tsc --noEmit && npm run bundle && vite build",
     "preview": "vite preview --host 127.0.0.1 --port 4173"
   },
   "dependencies": {
@@ -13,6 +14,7 @@
   },
   "devDependencies": {
     "@types/pako": "^2.0.3",
+    "esbuild": "^0.28.2",
     "typescript": "^5.9.2",
     "vite": "^7.1.5"
   }

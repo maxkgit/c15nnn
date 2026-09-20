@@ -93,6 +93,10 @@ const dict = {
   zoom: { ru: "Масштаб", en: "Zoom" },
   alignWeaps: { ru: "Выставить все стволы по выбранному", en: "Align all guns to selected" },
   alignWeapsDone: { ru: "Все стволы выставлены по выбранному.", en: "All guns aligned to the selected one." },
+  fileHint: {
+    ru: "Открой папку через локальный сервер (python3 -m http.server), иначе браузер не загрузит модельку с диска.",
+    en: "Serve this folder over HTTP (python3 -m http.server). Browsers block loading the model from file://.",
+  },
 } as const;
 
 export type I18nKey = keyof typeof dict;
