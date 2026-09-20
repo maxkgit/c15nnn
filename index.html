@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Doom 2D Forever Model Editor</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <div class="desktop">
+      <div class="window" id="app">
+        <div class="titlebar">
+          <span class="title-ico"></span>
+          <span data-i18n="title">Doom 2D Forever Model Editor</span>
+        </div>
+
+        <div class="toolbar">
+          <button type="button" id="btnNew" data-i18n="new">Новая</button>
+          <button type="button" id="btnOpen" data-i18n="open">Открыть</button>
+          <button type="button" id="btnOpenWad" data-i18n="openWad">Открыть из WAD</button>
+          <span class="sep"></span>
+          <button type="button" id="btnSaveTxt" data-i18n="saveTxt">→ model.txt</button>
+          <button type="button" id="btnSaveWad" data-i18n="saveWad">→ WAD</button>
+          <span class="sep"></span>
+          <button type="button" id="btnLang">RU / ENG</button>
+          <button type="button" id="btnDemo" data-i18n="demo">Демо-моделька</button>
+        </div>
+        <p class="hint" data-i18n="help"></p>
+
+        <div class="tabs" role="tablist">
+          <button type="button" class="tab active" data-tab="model" data-i18n="tabModel">Модель</button>
+          <button type="button" class="tab" data-tab="anim" data-i18n="tabAnim">Анимация и оружие</button>
+          <button type="button" class="tab" data-tab="res" data-i18n="tabRes">Ресурсы</button>
+        </div>
+
+        <section class="page active" id="page-model">
+          <div class="cols">
+            <fieldset>
+              <legend data-i18n="about">О модели</legend>
+              <label><span data-i18n="name">Имя</span><input id="fldName" /></label>
+              <label><span data-i18n="author">Автор</span><input id="fldAuthor" /></label>
+              <label><span data-i18n="description">Описание</span><textarea id="fldDesc" rows="3"></textarea></label>
+              <label><span data-i18n="version">Версия</span><input id="fldVersion" /></label>
+            </fieldset>
+            <fieldset>
+              <legend data-i18n="paths">Пути к ресурсам</legend>
+              <label>
+                <span data-i18n="resPath">Папка модельки</span>
+                <span class="row">
+                  <input id="fldResPath" readonly />
+                  <button type="button" id="btnResPath" data-i18n="browse">Выбрать...</button>
+                </span>
+              </label>
+              <label>
+                <span data-i18n="weapPath">Папка оружия</span>
+                <span class="row">
+                  <input id="fldWeapPath" readonly />
+                  <button type="button" id="btnWeapPath" data-i18n="browse">Выбрать...</button>
+                </span>
+              </label>
+            </fieldset>
+          </div>
+          <div class="cols">
+            <fieldset>
+              <legend data-i18n="blood">Кровь модели</legend>
+              <label class="check"><input type="checkbox" id="fldBloodOn" checked /><span data-i18n="bloodOn">Своя кровь</span></label>
+              <label><span>RGB</span><input type="color" id="fldBlood" value="#960000" /></label>
+              <label>
+                <span data-i18n="bloodKind">Поведение</span>
+                <select id="fldBloodKind">
+                  <option value="NORMAL" data-i18n="bloodNormal">Обычная</option>
+                  <option value="SPARKS" data-i18n="bloodSparks">Искры</option>
+                  <option value="COMBINE" data-i18n="bloodCombine">Оба</option>
+                </select>
+              </label>
+            </fieldset>
+            <fieldset>
+              <legend data-i18n="weapons">Оружие</legend>
+              <label class="radio"><input type="radio" name="weapMode" value="v2" checked /><span data-i18n="weapV2"></span></label>
+              <label class="radio"><input type="radio" name="weapMode" value="v1" /><span data-i18n="weapV1"></span></label>
+              <label class="radio"><input type="radio" name="weapMode" value="builtin" /><span data-i18n="weapBuiltin"></span></label>
+              <label class="radio"><input type="radio" name="weapMode" value="none" /><span data-i18n="weapNone"></span></label>
+              <label class="check"><input type="checkbox" id="fldMelee" checked /><span data-i18n="meleeFx"></span></label>
+            </fieldset>
+          </div>
+        </section>
+
+        <section class="page" id="page-anim">
+          <div class="anim-grid">
+            <fieldset class="preview-box">
+              <legend data-i18n="preview">Предпросмотр</legend>
+              <div class="stage-wrap sunken">
+                <canvas id="stage" width="320" height="240" tabindex="0"></canvas>
+              </div>
+              <div class="checks">
+                <label class="check"><input type="checkbox" id="chkMask" checked /><span data-i18n="dcolor">Маска</span></label>
+                <label class="check"><input type="color" id="fldPlayerColor" value="#cc2222" /><span data-i18n="pcolor">Цвет игрока</span></label>
+                <label class="check"><input type="checkbox" id="chkHitbox" /><span data-i18n="hitbox">Хитбокс</span></label>
+                <label class="check"><input type="checkbox" id="chkFlag" /><span data-i18n="flag">Флаг</span></label>
+                <label class="check"><input type="checkbox" id="chkFire" /><span data-i18n="fire">Огонь</span></label>
+                <label class="check"><input type="checkbox" id="chkLeft" /><span data-i18n="faceLeft">Влево</span></label>
+              </div>
+              <button type="button" id="btnAlignWeaps" class="wide" data-i18n="alignWeaps">Выставить все стволы по выбранному</button>
+            </fieldset>
+            <fieldset>
+              <legend data-i18n="animList">Анимация</legend>
+              <select id="lstAnim" size="18" tabindex="-1"></select>
+            </fieldset>
+            <fieldset>
+              <legend data-i18n="weapList">Оружие</legend>
+              <select id="lstWeap" size="12" tabindex="-1"></select>
+              <label><span data-i18n="waitcount">waitcount</span><input type="number" id="fldWait" min="1" max="99" /></label>
+              <label><span data-i18n="frames">Кадры</span><input type="number" id="fldFrames" min="1" max="64" /></label>
+              <label class="check"><input type="checkbox" id="fldBack" /><span data-i18n="backanim">Туда-обратно</span></label>
+            </fieldset>
+          </div>
+          <div class="transport">
+            <button type="button" id="btnPrev" data-i18n="prev">&lt;&lt;</button>
+            <button type="button" id="btnPlay" data-i18n="play">Играть</button>
+            <button type="button" id="btnStop" data-i18n="stop">Стоп</button>
+            <button type="button" id="btnNext" data-i18n="next">&gt;&gt;</button>
+            <span id="frameLabel" class="frame-label">1 / 1</span>
+            <label class="inline"><span data-i18n="wx">Оружие X</span><input type="number" id="fldWX" /></label>
+            <label class="inline"><span data-i18n="wy">Оружие Y</span><input type="number" id="fldWY" /></label>
+            <label class="inline"><span data-i18n="fx">Флаг X</span><input type="number" id="fldFX" /></label>
+            <label class="inline"><span data-i18n="fy">Флаг Y</span><input type="number" id="fldFY" /></label>
+            <label class="inline"><span data-i18n="fangle">Угол флага</span><input type="number" id="fldFA" /></label>
+            <label class="inline"><span data-i18n="zoom">Масштаб</span><input type="range" id="fldZoom" min="2" max="8" value="4" /></label>
+          </div>
+          <p class="hint" data-i18n="hintAnim"></p>
+        </section>
+
+        <section class="page" id="page-res">
+          <div class="res-grid">
+            <fieldset>
+              <legend data-i18n="stdAnim">Основные анимации</legend>
+              <div id="resBase" class="res-list"></div>
+            </fieldset>
+            <!-- Нет графики — временно скрыто
+            <fieldset>
+              <legend data-i18n="extAnim">Дополнительные анимации</legend>
+              <div id="resExtra" class="res-list"></div>
+            </fieldset>
+            -->
+            <fieldset>
+              <legend data-i18n="sounds">Звуки</legend>
+              <div id="resSounds" class="res-list"></div>
+              <label>
+                <span data-i18n="slop">Разрыв (slop)</span>
+                <select id="fldSlop">
+                  <option value="0" data-i18n="slop0">Нет</option>
+                  <option value="1" data-i18n="slop1">Только slop</option>
+                  <option value="2" data-i18n="slop2">Slop + смерть</option>
+                </select>
+              </label>
+            </fieldset>
+          </div>
+          <p class="hint" data-i18n="hintRes"></p>
+          <div class="res-preview sunken" id="resPreview"></div>
+        </section>
+
+        <div class="statusbar sunken" id="status">Готово.</div>
+      </div>
+    </div>
+
+    <input type="file" id="pickFolder" webkitdirectory multiple hidden />
+    <input type="file" id="pickWad" accept=".wad,.dfwad,.zip" hidden />
+    <input type="file" id="pickFile" hidden />
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

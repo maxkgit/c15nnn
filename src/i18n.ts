@@ -1,0 +1,188 @@
+export type Lang = "ru" | "en";
+
+const dict = {
+  title: { ru: "Doom 2D Forever Model Editor", en: "Doom 2D Forever Model Editor" },
+  new: { ru: "Новая", en: "New" },
+  open: { ru: "Открыть", en: "Open" },
+  openWad: { ru: "Открыть из WAD", en: "Open from WAD" },
+  saveTxt: { ru: "→ model.txt", en: "→ model.txt" },
+  saveWad: { ru: "→ WAD", en: "→ WAD" },
+  help: {
+    ru: "Выбор ресурсов отдельно не нужен. Редактор подбирает их по папке и расширению, если они есть на диске.",
+    en: "You don't pick resources one by one. The editor matches files by folder and extension.",
+  },
+  tabModel: { ru: "Модель", en: "Model" },
+  tabAnim: { ru: "Анимация и оружие", en: "Animation & weapons" },
+  tabRes: { ru: "Ресурсы", en: "Resources" },
+  about: { ru: "О модели", en: "About" },
+  name: { ru: "Имя", en: "Name" },
+  author: { ru: "Автор", en: "Author" },
+  description: { ru: "Описание", en: "Description" },
+  version: { ru: "Версия", en: "Version" },
+  paths: { ru: "Пути к ресурсам", en: "Resource paths" },
+  resPath: { ru: "Папка модельки", en: "Model folder" },
+  weapPath: { ru: "Папка оружия", en: "Weapons folder" },
+  browse: { ru: "Выбрать...", en: "Browse..." },
+  blood: { ru: "Кровь модели", en: "Model blood" },
+  bloodOn: { ru: "Своя кровь", en: "Custom blood" },
+  bloodKind: { ru: "Поведение", en: "Behavior" },
+  bloodNormal: { ru: "Обычная", en: "Normal" },
+  bloodSparks: { ru: "Искры", en: "Sparks" },
+  bloodCombine: { ru: "Оба", en: "Combine" },
+  weapons: { ru: "Оружие", en: "Weapons" },
+  weapV2: {
+    ru: "Стандартное оружие v2 (guns2) — рекомендуется, выглядит лучше",
+    en: "Standard weapons v2 (guns2) — recommended, looks better",
+  },
+  weapV1: {
+    ru: "Стандартное оружие v1 (guns1) — спрайты WEAPONS_OLD, клиенты < 0.667",
+    en: "Standard weapons v1 (guns1) — WEAPONS_OLD sprites, clients < 0.667",
+  },
+  weapBuiltin: {
+    ru: "Встроенное оружие — оверлей не рисуется, спрайты уже с оружием",
+    en: "Built-in weapons — no overlay, sprites already include guns",
+  },
+  weapNone: { ru: "Без наложения оружия", en: "No weapon overlay" },
+  meleeFx: { ru: "Накладывать эффект удара кулаком", en: "Overlay melee hit effect" },
+  preview: { ru: "Предпросмотр", en: "Preview" },
+  dcolor: { ru: "Маска", en: "Mask" },
+  pcolor: { ru: "Цвет игрока", en: "Player color" },
+  play: { ru: "Играть", en: "Play" },
+  hitbox: { ru: "Хитбокс", en: "Hitbox" },
+  flag: { ru: "Флаг", en: "Flag" },
+  fire: { ru: "Огонь", en: "Fire" },
+  faceLeft: { ru: "Влево", en: "Face left" },
+  animList: { ru: "Кадры", en: "Frames" },
+  weapList: { ru: "Оружие", en: "Weapon" },
+  waitcount: { ru: "waitcount", en: "waitcount" },
+  frames: { ru: "Кадры", en: "Frames" },
+  backanim: { ru: "Туда-обратно", en: "Ping-pong" },
+  wx: { ru: "Оружие X", en: "Weapon X" },
+  wy: { ru: "Оружие Y", en: "Weapon Y" },
+  fx: { ru: "Флаг X", en: "Flag X" },
+  fy: { ru: "Флаг Y", en: "Flag Y" },
+  fangle: { ru: "Угол флага", en: "Flag angle" },
+  prev: { ru: "<<", en: "<<" },
+  next: { ru: ">>", en: ">>" },
+  stop: { ru: "Стоп", en: "Stop" },
+  hintAnim: {
+    ru: "WASD двигает оружие. Enter / Backspace — кадры, после последнего кадра оружия — следующее оружие.",
+    en: "WASD moves the weapon. Enter / Backspace step frames, then the next weapon after the last frame.",
+  },
+  stdAnim: { ru: "Основные анимации", en: "Standard animations" },
+  extAnim: { ru: "Дополнительные анимации", en: "Extended animations" },
+  sounds: { ru: "Звуки", en: "Sounds" },
+  mask: { ru: "MASK", en: "MASK" },
+  hintRes: {
+    ru: "Зелёный — файл найден. Жёлтый — необязательный отсутствует. Красный — обязательный отсутствует. Клик — предпросмотр, двойной клик — заменить файл.",
+    en: "Green — found. Yellow — optional missing. Red — required missing. Click to preview, double-click to replace.",
+  },
+  slop: { ru: "Разрыв (slop)", en: "Gib burst (slop)" },
+  slop0: { ru: "Нет", en: "None" },
+  slop1: { ru: "Только slop", en: "Slop only" },
+  slop2: { ru: "Slop + смерть", en: "Slop + death" },
+  ready: { ru: "Готово.", en: "Ready." },
+  loadedFolder: { ru: "Открыта папка модельки.", en: "Opened model folder." },
+  loadedWad: { ru: "WAD распакован.", en: "WAD unpacked." },
+  savedTxt: { ru: "MODEL.txt сохранён.", en: "MODEL.txt saved." },
+  savedWad: { ru: "DFWAD сохранён.", en: "DFWAD saved." },
+  newModel: { ru: "Новая моделька.", en: "New model." },
+  needName: { ru: "У модели должно быть имя.", en: "The model needs a name." },
+  badWad: { ru: "Это не DFWAD или нет TEXT/MODEL.", en: "Not a DFWAD, or TEXT/MODEL is missing." },
+  demo: { ru: "Демо-моделька", en: "Demo model" },
+  zoom: { ru: "Масштаб", en: "Zoom" },
+  alignWeaps: { ru: "Выставить все стволы по выбранному", en: "Align all guns to selected" },
+  alignWeapsDone: { ru: "Все стволы выставлены по выбранному.", en: "All guns aligned to the selected one." },
+} as const;
+
+export type I18nKey = keyof typeof dict;
+
+const animRu: Record<string, string> = {
+  StandAnim: "Стоит",
+  WalkAnim: "Ходьба",
+  Die1Anim: "Смерть 1",
+  Die2Anim: "Смерть 2",
+  AttackAnim: "Атака",
+  SeeUpAnim: "Смотрит вверх",
+  SeeDownAnim: "Смотрит вниз",
+  AttackUpAnim: "Атака вверх",
+  AttackDownAnim: "Атака вниз",
+  PainAnim: "Боль",
+  WalkAttackAnim: "Ходьба + атака",
+  WalkSeeUpAnim: "Ходьба вверх",
+  WalkSeeDownAnim: "Ходьба вниз",
+  WalkAttackUpAnim: "Ходьба + атака вверх",
+  WalkAttackDownAnim: "Ходьба + атака вниз",
+  MeleeStandAnim: "Кулаки, стоит",
+  MeleeWalkAnim: "Кулаки, ходьба",
+  MeleeAttackAnim: "Удар кулаком",
+  MeleeWalkAttackAnim: "Ходьба + удар",
+  MeleeSeeUpAnim: "Кулаки вверх",
+  MeleeSeeDownAnim: "Кулаки вниз",
+  MeleeAttackUpAnim: "Удар вверх",
+  MeleeAttackDownAnim: "Удар вниз",
+};
+
+const animEn: Record<string, string> = {
+  StandAnim: "Stand",
+  WalkAnim: "Walk",
+  Die1Anim: "Die 1",
+  Die2Anim: "Die 2",
+  AttackAnim: "Attack",
+  SeeUpAnim: "Look up",
+  SeeDownAnim: "Look down",
+  AttackUpAnim: "Attack up",
+  AttackDownAnim: "Attack down",
+  PainAnim: "Pain",
+  WalkAttackAnim: "Walk + attack",
+  WalkSeeUpAnim: "Walk look up",
+  WalkSeeDownAnim: "Walk look down",
+  WalkAttackUpAnim: "Walk attack up",
+  WalkAttackDownAnim: "Walk attack down",
+  MeleeStandAnim: "Fist stand",
+  MeleeWalkAnim: "Fist walk",
+  MeleeAttackAnim: "Fist attack",
+  MeleeWalkAttackAnim: "Fist walk attack",
+  MeleeSeeUpAnim: "Fist look up",
+  MeleeSeeDownAnim: "Fist look down",
+  MeleeAttackUpAnim: "Fist attack up",
+  MeleeAttackDownAnim: "Fist attack down",
+};
+
+const weapRu: Record<string, string> = {
+  csaw: "Бензопила",
+  hgun: "Пистолет",
+  sg: "Дробовик",
+  ssg: "Двустволка",
+  mgun: "Пулемёт",
+  rkt: "Рокетлаунчер",
+  plz: "Плазмаган",
+  bfg: "BFG-9000",
+  spl: "Суперпулемёт",
+  flm: "Огнемёт",
+};
+
+const weapEn: Record<string, string> = {
+  csaw: "Chainsaw",
+  hgun: "Pistol",
+  sg: "Shotgun",
+  ssg: "Super shotgun",
+  mgun: "Chaingun",
+  rkt: "Rocket launcher",
+  plz: "Plasma rifle",
+  bfg: "BFG-9000",
+  spl: "Super chaingun",
+  flm: "Flamethrower",
+};
+
+export function t(lang: Lang, key: I18nKey): string {
+  return dict[key][lang];
+}
+
+export function animLabel(lang: Lang, section: string): string {
+  return (lang === "ru" ? animRu : animEn)[section] ?? section;
+}
+
+export function weapLabel(lang: Lang, key: string): string {
+  return (lang === "ru" ? weapRu : weapEn)[key] ?? key;
+}
