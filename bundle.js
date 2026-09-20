@@ -5664,8 +5664,8 @@
       ctx.stroke();
     }
     applyWeaponPack() {
-      if (this.model.weaponMode === "v2") this.weaponFolderLabel = "GameWAD/WEAPONS";
-      else if (this.model.weaponMode === "v1") this.weaponFolderLabel = "GameWAD/WEAPONS_OLD";
+      if (this.model.weaponMode === "v2") this.weaponFolderLabel = "weapons";
+      else if (this.model.weaponMode === "v1") this.weaponFolderLabel = "weapons_old";
       const path = document.getElementById("fldWeapPath");
       if (path) path.value = this.weaponFolderLabel;
     }
